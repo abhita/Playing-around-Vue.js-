@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>VUE.JS INTRO</title>
+</head>
+<body>
+    <h1>VUE.JS OVERVIEW</h1>
+    <style>
+        .info {
+            color: #00529B;
+            background-color: #BDE5F8;
+        }
+
+        body {
+            background-color: grey;
+            color: white;
+        }
+
+        div {
+            margin: 10px 0;
+            padding: 12px;
+            font-size: 25px;
+            background-color: black;
+            border-radius: 25px;
+            color: white;
+        }
+
+        .active {
+            color: #4F8A10;
+            background-color: #DFF2BF;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <div id="changeval">
+        <p>Change from console using vm1.message="Hello"</p>
+        <p>{{message}}</p>
+    </div>
+
+    <div id="binding">
+        <p>Class binding: color change by click</p>
+        <div v-bind:class="[isActive ? infoclass : '', haserror ? errorclass : '']">{{title}}</div>
+        <button v-on:click="change">Change Theme</button>
+    </div>
+
+    <div id="conditions">
+        <p>Change app2.Key=true to see changes</p>
+        <span v-if="Key">
+            <li v-for="x in list">
+                {{x.key}}
+            </li>
+        </span>
+
+        <span v-if="Value">
+            <li v-for="x in list">
+                {{x.value}}
+            </li>
+
+        </span>
+    </div>
+
+    <div id="userinput">
+        <p>Reverses the given word using v-on {{ message }}</p>
+        <input v-model="message">
+        <button v-on:click="split">Reverse</button>
+    </div>
+    <div id="component">
+        <templ></templ>
+        <p>{{a}}</p>
+        <input v-model="a">
+    </div>
+
+    <div id="example">
+        <p>{{a}}</p>
+    </div>
+
+    <div id="vue-app">
+        <h3>Computed Properties(See the console to understand the difference)</h3>
+        <button v-on:click="a++">Add to A</button>
+        <button v-on:click="b++">Add to B</button>
+        <p>Age + A = {{ addToAcomputed }}</p>
+        <p>Age + B = {{ addToBcomputed }}</p>
+
+        <h3>Methods</h3>
+        <button v-on:click="a++">Add to A</button>
+        <button v-on:click="b++">Add to B</button>
+        <p>Age + A = {{ addToAmethod() }}</p>
+        <p>Age + B = {{ addToBmethod() }}</p>
+    </div>
+
+
+     
+        
+
+</body>
+<script>
+
+var vm1 = new Vue({
+  el: '#changeval',
+  data:{
+  message: "Hello"
+    }
+});
+    var app = new Vue({
+  el: '#binding',
+  data: {
+    title:"Class Binding",
+    infoclass:"info",
+    errorclass:"active",
+    isActive:false,
+    haserror:true
+  },
+   methods:{ change: function(){
+    this.isActive=!this.isActive;
+    this.haserror=!this.haserror
+    }
+    }
+});
+
+
+    var app2 = new Vue({
+  el: '#conditions',
+  data: {
+    Key:false,
+    Value:true,
+    list:[
+    {key:1, value:"one"},{key:2,value:"two"}]
+  }
+});
+
+    var userinput = new Vue({
+  el: '#userinput',
+  data: {
+    message:"Hello"
+  },
+    methods:{
+    split: function(){
+    this.message=this.message.split('').reverse().join("")
+    }
+   }
+});
+
+Vue.component('templ', {
+  template: '<h3>Type to see changes</h3>'
+});
+
+
+var data = { a: 1 }
+
+// The object is added to a Vue instance
+var vm = new Vue({
+    el:'#component',
+  data: data
+});
+
+
+var vm = new Vue({
+  el: '#example',
+  data: data
+});
+
+var vm=new Vue({
+    el: '#vue-app',
+    data: {
+        a: 0,
+        b: 0,
+        age: 20
+    },
+    methods: {
+        addToAmethod: function(){
+            console.log('addToAmethod');
+            return this.a + this.age;
+        },
+        addToBmethod: function(){
+            console.log('addToBmethod');
+            return this.b + this.age;
+        }
+    },
+    computed: {
+        addToAcomputed: function(){
+            console.log('addToAcomputed');
+            return this.a + this.age;
+        },
+        addToBcomputed: function(){
+            console.log('addToBcomputed');
+            return this.b + this.age;
+        }
+    }
+});
+
+
+
+</script>
+</html>
